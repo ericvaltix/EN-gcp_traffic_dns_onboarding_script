@@ -3,25 +3,37 @@
 # automating https://docs.valtix.com/userguide/discovery/gcp-vpc-flow-logs/
 # And https://docs.valtix.com/userguide/discovery/gcp-dns-log/
 
+#
+##  Edit these variables to reflect your GCP environment
 PROJECT_NAME=[YOU_RPROJECT_NAME_HERE]
-PROJECT_ID=$PROJECT_NAME
-REGION=us-east1
-ZONE=us-east1-b
-VPC_NETWORK_NAME=terraform-network
-BUCKET_NAME=valtix_logs
-SINK_NAME=$BUCKET_NAME
 SERVICE_ACCOUNT_EMAIL="YOUR SERVICE ACCOUNT EMAIL"
 VALTIX_TENANT_NAME=YOUR_TENANT_NAME
 
+# A region and zone where assets are deployed.  This can be changed later inside the Valtix UI to pull inventory data from different/more regions and zones
+REGION=us-east1
+ZONE=us-east1-b
+
+# This is the VPC Network to turn on flow logs for (VPC Networks list - https://console.cloud.google.com/networking/networks/list)
+VPC_NETWORK_NAME=default
+
+##
+#######  End variable editing
+##
+
+
+#
+# These can be edited if needed, but usually don't need to be changed.
+BUCKET_NAME=valtix_logs
 PUBSUB_TOPIC=valtix_topic
 PUBSUB_SUBSCRIPTION=valtix_subscription
+##########
 
+# additional vars to be used during setup - don't change these
+SINK_NAME=$BUCKET_NAME
+PROJECT_ID=$PROJECT_NAME
 _DNS_POLICY_NAME=valtixdnslogging
 _BUCKET_ROLE_NAME=valtix.storage.buckets.role
-# _BUCKET_LIST_ROLE_NAME=valtix.storage.objects.stuff
 
-# printf "Testing"
-# exit();
 
 # Enable APIs needed by Valtix
 printf "*** Enabling secretmanager, compute, and iam APIs\n\n"
@@ -116,4 +128,4 @@ gsutil notification create -t $PUBSUB_TOPIC -f json gs://$BUCKET_NAME
 printf "\n-------------------------------------------------------------\n\n"
 
 printf "Done!\n"
-printf "This script has ZERO error checking, check the output above for any errors.  You will need to correct them manually\n\n"
+
