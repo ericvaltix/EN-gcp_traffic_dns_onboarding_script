@@ -35,7 +35,8 @@ _DNS_POLICY_NAME=valtixdnslogging
 _BUCKET_ROLE_NAME=valtix.storage.buckets.role
 
 
-# Enable APIs needed by Valtix
+# Enable APIs needed by Valtix onboarding
+# GCP requires you to enable any APIs before they can be called from the gcloud command.
 printf "*** Enabling secretmanager, compute, and iam APIs\n\n"
 gcloud services enable secretmanager.googleapis.com
 gcloud services enable compute.googleapis.com
